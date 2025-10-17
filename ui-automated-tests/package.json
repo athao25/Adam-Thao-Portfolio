@@ -1,0 +1,87 @@
+{
+  "name": "ui-automated-tests",
+  "version": "1.0.0",
+  "description": "Test automation portfolio for UI testing against saucedemo.com using TypeScript and Playwright",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "playwright test",
+    "test:dev": "NODE_ENV=development playwright test",
+    "test:staging": "NODE_ENV=staging playwright test",
+    "test:prod": "NODE_ENV=production playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:ui": "playwright test --ui",
+    "test:report": "playwright show-report",
+    "test:chrome": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "test:safari": "playwright test --project=webkit",
+    "test:mobile": "playwright test --project='Mobile Chrome'",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:smoke:staging": "NODE_ENV=staging playwright test --grep @smoke",
+    "test:smoke:prod": "NODE_ENV=production playwright test --grep @smoke",
+    "test:regression": "playwright test --grep @regression",
+    "test:regression:staging": "NODE_ENV=staging playwright test --grep @regression",
+    "test:regression:prod": "NODE_ENV=production playwright test --grep @regression",
+    "test:visual": "playwright test tests/specs/visual/",
+    "test:performance": "playwright test tests/specs/performance/",
+    "test:accessibility": "playwright test tests/specs/accessibility/",
+    "test:all": "npm run test:smoke && npm run test:regression && npm run test:visual && npm run test:performance && npm run test:accessibility",
+    "lint": "eslint . --ext .ts,.js",
+    "lint:fix": "eslint . --ext .ts,.js --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "type-check": "tsc --noEmit",
+    "setup": "npm install && npx playwright install && npm run prepare",
+    "clean": "rm -rf test-results/ playwright-report/ reports/",
+    "ci": "npm run type-check && npm run lint && npm run format:check && npm run test",
+    "generate-report": "node scripts/generate-report.js"
+  },
+  "keywords": [
+    "playwright",
+    "typescript",
+    "test-automation",
+    "ui-testing",
+    "saucedemo"
+  ],
+  "author": "Adam Thao",
+  "license": "ISC",
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.2",
+    "@commitlint/cli": "^18.6.1",
+    "@commitlint/config-conventional": "^18.6.3",
+    "@playwright/test": "^1.56.0",
+    "@types/node": "^24.7.1",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "allure-playwright": "^2.15.1",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.2",
+    "eslint-plugin-prettier": "^5.5.4",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.2",
+    "playwright-lighthouse": "^1.0.1",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3"
+  },
+  "lint-staged": {
+    "*.{ts,js}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  }
+}
